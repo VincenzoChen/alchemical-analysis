@@ -325,7 +325,7 @@ def estimatewithMBAR(u_kln, N_k, reltol, regular_estimate=False):
       print "\nEstimating the free energy change with MBAR..."
    MBAR = pymbar.mbar.MBAR(u_kln, N_k, verbose = P.verbose, relative_tolerance = reltol, initialize = P.init_with)
    # Get matrix of dimensionless free energy differences and uncertainty estimate.
-   (Deltaf_ij, dDeltaf_ij, theta_ij ) = MBAR.getFreeEnergyDifferences(uncertainty_method='svd-ew', return_theta = True)
+   (Deltaf_ij, dDeltaf_ij, theta_ij ) = (MBAR.getFreeEnergyDifferences(uncertainty_method='svd-ew', return_theta = True)['Delta_f'],MBAR.getFreeEnergyDifferences(uncertainty_method='svd-ew', return_theta = True)['dDelta_f'],MBAR.getFreeEnergyDifferences(uncertainty_method='svd-ew', return_theta = True)['Theta'])
    if P.verbose:
       print "Matrix of free energy differences\nDeltaf_ij:\n%s\ndDeltaf_ij:\n%s" % (Deltaf_ij, dDeltaf_ij)
    if regular_estimate:
@@ -536,13 +536,13 @@ def estimatePairs():
             #===================================================================================================
             # Estimate free energy difference with BAR; use w_F and w_R computed above.
             #===================================================================================================
-            (df['BAR'], ddf['BAR']) = pymbar.bar.BAR(w_F, w_R, relative_tolerance=P.relative_tolerance, verbose = P.verbose)
+            (df['BAR'], ddf['BAR']) = (pymbar.bar.BAR(w_F, w_R, relative_tolerance=P.relative_tolerance, verbose = P.verbose)['Delta_f'],pymbar.bar.BAR(w_F, w_R, relative_tolerance=P.relative_tolerance, verbose = P.verbose)['dDelta_f'])
 
          if name == 'UBAR':
             #===================================================================================================
             # Estimate free energy difference with unoptimized BAR -- assume dF is zero, and just do one evaluation
             #===================================================================================================
-            (df['UBAR'], ddf['UBAR']) = pymbar.bar.BAR(w_F, w_R, verbose = P.verbose,iterated_solution=False)
+            (df['UBAR'], ddf['UBAR']) = (pymbar.bar.BAR(w_F, w_R, relative_tolerance=P.relative_tolerance, verbose = P.verbose)['Delta_f'],pymbar.bar.BAR(w_F, w_R, relative_tolerance=P.relative_tolerance, verbose = P.verbose)['dDelta_f'])
 
          if name == 'RBAR':
             #===================================================================================================
@@ -552,7 +552,7 @@ def estimatePairs():
             min_diff = 1E6
             best_udf = 0
             for trial_udf in range(-10,10,1):
-               (udf, uddf) = pymbar.bar.BAR(w_F, w_R, DeltaF=trial_udf, iterated_solution=False, verbose=P.verbose)
+               (udf, uddf) = (pymbar.bar.BAR(w_F, w_R, relative_tolerance=P.relative_tolerance, verbose = P.verbose)['Delta_f'],pymbar.bar.BAR(w_F, w_R, relative_tolerance=P.relative_tolerance, verbose = P.verbose)['dDelta_f'])
                diff = numpy.abs(udf - trial_udf)
                if (diff < min_diff):
                   best_udf = udf
