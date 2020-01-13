@@ -1,4 +1,4 @@
-# Command line was: /home/chenzhao/HuangLab/softwares/alchemical-analysis/alchemical_analysis/alchemical_analysis.py -d /home/chenzhao/HuangLab/softwares/alchemical-analysis/samples/gromacs/data/3-methylindole-11steps -m -dexp-iexp -r 6 -g -w -c
+# Command line was: /home/chenzhao/HuangLab/softwares/alchemical-analysis/alchemical_analysis/alchemical_analysis.py -d /home/chenzhao/HuangLab/softwares/alchemical-analysis/samples/gromacs/data/3-methylindole-11steps -m -dexp-iexp -r 6 -g -w -c -e -f 10
 
 ------------ --------------------------- --------------------------- --------------------------- ---------------------------
    States              TI (kJ/mol)           TI-CUBIC (kJ/mol)                BAR (kJ/mol)               MBAR (kJ/mol)      

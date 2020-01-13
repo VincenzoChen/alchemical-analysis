@@ -12,7 +12,7 @@ def workingOnFileObject(function):
    """A decorator that ensures that function 'function' is called upon a file object rather than a string."""
    def convert_if_needed(f, *args, **kwargs):
       if isinstance(f, str):
-         with open(f, 'r') as infile:
+         with open(f, 'rb') as infile:
             return function(infile, *args, **kwargs)
       return function(f, *args, **kwargs)
    return convert_if_needed
@@ -44,11 +44,11 @@ def tailPy(f, nlines, LENB=1024):
       else:
          f.seek(0,0)
          excerpt.append(f.read(sizeb))
-      ll = excerpt[-1].count('\n')
+      ll = excerpt[-1].count(str.encode('\n'))
       n_togo -= ll
       sizeb -= LENB
       i += 1
-   return ''.join(excerpt[::-1]).splitlines()[-nlines:]
+   return b''.join(excerpt[::-1]).splitlines()[-nlines:]
 
 def grepFromSection(f, section, *stringhe, **kwargs):
    """From section 'section' of file 'f' extract the values of strings 'stringhe'."""
@@ -63,19 +63,19 @@ def grepFromSection(f, section, *stringhe, **kwargs):
             return (i+n, nsteps)
          found = {}
          try:
-            line = f.next() # The first line after the line with 'section'.
+            line = next(f) # The first line after the line with 'section'.
             i += 1
-	    while not line.strip('\n '): # Skip blank lines at the beginning.
-               line = f.next()
+            while not line.strip('\n '): # Skip blank lines at the beginning.
+               line = next(f)
                i += 1
             if not f_tell_0:
                i += 1 # To compensate for the uncounted line.
-	    while line.strip('\n '): # Search until a blank line is encountered.
+            while line.strip('\n '): # Search until a blank line is encountered.
                line = trPy(line, '[,:=]')
                for s in stringhe:
                   if s in line:
                      found[s] = line.split(s)[1].split()[0]
-               line = f.next()
+               line = next(f)
                i += 1 # Will account for the initial 0 when leaving the loop.
          except StopIteration:
             pass

@@ -1,2 +1,2 @@
 #! bin/bash
-python2.7 /home/chenzhao/HuangLab/softwares/alchemical-analysis/alchemical_analysis/alchemical_analysis.py -d /home/chenzhao/HuangLab/softwares/alchemical-analysis/samples/gromacs/data/3-methylindole-11steps -m -dexp-iexp -r 6 -g -w -c
+python /home/chenzhao/HuangLab/softwares/alchemical-analysis/alchemical_analysis/alchemical_analysis.py -d /home/chenzhao/HuangLab/softwares/alchemical-analysis/samples/gromacs/data/3-methylindole-11steps -m -dexp-iexp -r 6 -g -w -c -e -f 10
